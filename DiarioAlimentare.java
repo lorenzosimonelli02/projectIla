@@ -975,39 +975,36 @@ class DiarioGUI extends JFrame {
             }
         });
         
-        aggiungiButton.addActionListener(e -> {
-            Ricetta ricettaSelezionata = (Ricetta) comboRicette.getSelectedItem();
-            if (ricettaSelezionata != null) {
-                // Controlla se abbiamo raggiunto il limite di ricette per questo pasto
-                if (modelPasto.size() < tipoPasto.getMaxRicette()) {
-                    modelPasto.addElement(ricettaSelezionata);
-                    pianificazione.get(giorno).get(tipoPasto).add(ricettaSelezionata);
-                    // Aggiorna la lista della spesa automaticamente
-                    generaListaSpesa();
-                } else {
-                    UIUtils.mostraMessaggioModerno(
-                        this,
-                        "Hai raggiunto il limite di " + tipoPasto.getMaxRicette() + 
-                        " ricette per " + tipoPasto.getNome().toLowerCase() + ".",
-                        "Limite Raggiunto", JOptionPane.INFORMATION_MESSAGE);
-                }
-            }
-        });
-        
-        rimuoviButton.addActionListener(e -> {
-            int index = listaPasto.getSelectedIndex();
-            if (index != -1) {
-                Ricetta ricettaRimossa = modelPasto.remove(index);
-                pianificazione.get(giorno).get(tipoPasto).remove(ricettaRimossa);
-                // Aggiorna la lista della spesa automaticamente
-                generaListaSpesa();
-            } else {
-                UIUtils.mostraMessaggioModerno(
-                    this,
-                    "Seleziona prima una ricetta da rimuovere", 
-                    "Avviso", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
+aggiungiButton.addActionListener(e -> {
+    Ricetta ricettaSelezionata = (Ricetta) comboRicette.getSelectedItem();
+    if (ricettaSelezionata != null) {
+        // Controlla se abbiamo raggiunto il limite di ricette per questo pasto
+        if (modelPasto.size() < tipoPasto.getMaxRicette()) {
+            modelPasto.addElement(ricettaSelezionata);
+            pianificazione.get(giorno).get(tipoPasto).add(ricettaSelezionata);
+            // La riga "generaListaSpesa();" è stata rimossa
+        } else {
+            UIUtils.mostraMessaggioModerno(
+                this,
+                "Hai raggiunto il limite di " + tipoPasto.getMaxRicette() + 
+                " ricette per " + tipoPasto.getNome().toLowerCase() + ".",
+                "Limite Raggiunto", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+});
+rimuoviButton.addActionListener(e -> {
+    int index = listaPasto.getSelectedIndex();
+    if (index != -1) {
+        Ricetta ricettaRimossa = modelPasto.remove(index);
+        pianificazione.get(giorno).get(tipoPasto).remove(ricettaRimossa);
+        // La riga "generaListaSpesa();" è stata rimossa
+    } else {
+        UIUtils.mostraMessaggioModerno(
+            this,
+            "Seleziona prima una ricetta da rimuovere", 
+            "Avviso", JOptionPane.INFORMATION_MESSAGE);
+    }
+});
         
         panel.add(controlPanel, BorderLayout.SOUTH);
         
@@ -1141,7 +1138,6 @@ class DiarioGUI extends JFrame {
         
         panel.add(scrollLista, BorderLayout.CENTER);
         panel.add(bottomPanel, BorderLayout.SOUTH);
-        
         return panel;
     }
     
