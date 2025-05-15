@@ -1,0 +1,54 @@
+Pasta 
+- pasta, 200, g
+- pomodoro, 400, g
+- aglio, 2, g
+- basilico, 5, g
+- olio, 50, g
+- sale, 2, g
+- pepe, 2, g
+
+Insalata
+- quinoa, 150, g
+- cetriolo, 10, g
+- peperone, 50, g
+- carota, 30, g
+- feta, 50, g
+- olio, 10, g
+
+Pollo
+- pollo, 100, g
+- limone, 5, g
+- zucchina, 10, g
+- carote, 20, g
+- cipolla, 10, g
+- olio, 10, g
+
+Cous Cous 
+- cous cous, 150, g
+- melanzana, 50, g
+- zucchina, 50, g
+- peperone, 30, g
+- olio, 20, g
+
+Riso Basmati 
+- riso basmati, 200, g
+- piselli, 100 ,g
+- cipolla, 20, g
+- curry, 10, g
+- olio, 20, g
+
+Sandwich 
+- pane, 100, g
+- fesa di tacchino, 100, g
+- avocado, 150, g
+- lattuga, 100, g
+- senape, 70, g
+
+
+
+
+
+
+
+
+
