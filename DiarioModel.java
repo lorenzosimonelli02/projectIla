@@ -186,6 +186,13 @@ enum TipoPasto {
     public int getMaxRicette() {
         return maxRicette;
     }
+    
+    /**
+     * Ottiene il nome del file associato a questo tipo di pasto
+     */
+    public String getNomeFile() {
+        return nome.toLowerCase() + ".txt";
+    }
 }
 
 /**
@@ -250,24 +257,45 @@ class PianificazioneGiornaliera {
  * Classe per gestire le ricette e la lista della spesa
  */
 class GestoreRicette {
-    private final List<Ricetta> ricettario;
+    // Mappa che associa ogni tipo di pasto alla sua lista di ricette
+    private final Map<TipoPasto, List<Ricetta>> ricettariPerTipo;
     
     // Costanti per il caricamento dei file
     private static final String DELIMITATORE_CSV = ",";
     private static final String INDICATORE_INGREDIENTE = "-";
 
     public GestoreRicette() {
-        ricettario = new ArrayList<>();
-    }
-
-    public List<Ricetta> getRicettario() {
-        return Collections.unmodifiableList(ricettario);
+        // Utilizziamo EnumMap per ottimizzare l'uso di enum come chiavi
+        ricettariPerTipo = new EnumMap<>(TipoPasto.class);
+        
+        // Inizializza liste vuote per ogni tipo di pasto
+        for (TipoPasto tipo : TipoPasto.values()) {
+            ricettariPerTipo.put(tipo, new ArrayList<>());
+        }
     }
 
     /**
-     * Carica le ricette da un file di testo in modo efficiente
+     * Ottiene il ricettario per un determinato tipo di pasto
      */
-    public void caricaRicette(String nomeFile) throws IOException {
+    public List<Ricetta> getRicettario(TipoPasto tipo) {
+        return Collections.unmodifiableList(ricettariPerTipo.get(tipo));
+    }
+    
+    /**
+     * Ottiene la lista completa di tutte le ricette
+     */
+    public List<Ricetta> getTutteLeRicette() {
+        return ricettariPerTipo.values().stream()
+               .flatMap(List::stream)
+               .collect(Collectors.toList());
+    }
+
+    /**
+     * Carica le ricette da un file di testo specifico per un tipo di pasto
+     */
+    public void caricaRicettePerTipo(TipoPasto tipo, String nomeFile) throws IOException {
+        List<Ricetta> ricettario = ricettariPerTipo.get(tipo);
+        
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(nomeFile))) {
             String line;
             Ricetta ricettaCorrente = null;
@@ -285,6 +313,15 @@ class GestoreRicette {
                     processaRigaIngrediente(line.substring(1).trim(), ricettaCorrente);
                 }
             }
+        }
+    }
+    
+    /**
+     * Metodo di utilità per caricare le ricette per tutti i tipi di pasto
+     */
+    public void caricaTutteLeRicette() throws IOException {
+        for (TipoPasto tipo : TipoPasto.values()) {
+            caricaRicettePerTipo(tipo, tipo.getNomeFile());
         }
     }
     
@@ -329,13 +366,15 @@ class GestoreRicette {
                 });
         }
         
-        // Aggiorna i prezzi negli ingredienti del ricettario
-        for (Ricetta ricetta : ricettario) {
-            for (Ingrediente ingrediente : ricetta.getIngredienti()) {
-                double prezzo = IngredienteFactory.getPrezzo(ingrediente.getNome());
-                ingrediente.setPrezzo(prezzo);
-            }
-        }
+        // Aggiorna i prezzi negli ingredienti di tutte le ricette
+        ricettariPerTipo.values().stream()
+            .flatMap(List::stream)
+            .forEach(ricetta -> {
+                for (Ingrediente ingrediente : ricetta.getIngredienti()) {
+                    double prezzo = IngredienteFactory.getPrezzo(ingrediente.getNome());
+                    ingrediente.setPrezzo(prezzo);
+                }
+            });
     }
 
     /**
@@ -379,7 +418,8 @@ class GestoreRicette {
      * Ottiene una ricetta per nome o null se non esiste
      */
     public Optional<Ricetta> getRicettaPerNome(String nome) {
-        return ricettario.stream()
+        return ricettariPerTipo.values().stream()
+                .flatMap(List::stream)
                 .filter(r -> r.getNome().equalsIgnoreCase(nome))
                 .findFirst();
     }
