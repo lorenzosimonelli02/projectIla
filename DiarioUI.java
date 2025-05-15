@@ -26,15 +26,16 @@ class UIUtils {
     
     // Template per la lista della spesa
     public static final String LISTA_SPESA_HEADER = """
-        📋 LISTA DELLA SPESA SETTIMANALE
-        ══════════════════════════════
+         LISTA DELLA SPESA SETTIMANALE
+        ---------------------------------------------------------
+        
         
         """;
     
     public static final String LISTA_SPESA_FOOTER = """
         
-        ══════════════════════════════
-        💰 COSTO TOTALE: € %.2f""";
+        ------------------------------------------------------------
+         COSTO TOTALE: € %.2f""";
     
     private UIUtils() {} // Costruttore privato per class utility
     
@@ -370,13 +371,13 @@ class DiarioGUI extends JFrame {
         
         // Mappe di ingredienti per categoria
         Map<String, String[]> mappeCategorie = Map.of(
-            "🍅 Verdure", new String[]{"pomodoro", "carota", "cipolla", "insalata", "zucchina", "patata"},
-            "🍞 Panetteria", new String[]{"pane", "pasta", "pizza"},
-            "🥩 Carne", new String[]{"carne", "pollo", "manzo", "maiale"},
-            "🐟 Pesce", new String[]{"pesce", "tonno", "salmone"},
-            "🥛 Latticini", new String[]{"latte", "formaggio", "yogurt", "burro"},
-            "🍎 Frutta", new String[]{"mela", "banana", "arancia", "pera"},
-            "🧂 Condimenti", new String[]{"olio", "sale", "pepe", "zucchero"}
+            "Verdure", new String[]{"pomodoro", "carota", "cipolla", "insalata", "zucchina", "patata"},
+            "Panetteria", new String[]{"pane", "pasta", "pizza"},
+            "Carne", new String[]{"carne", "pollo", "manzo", "maiale"},
+            "Pesce", new String[]{"pesce", "tonno", "salmone"},
+            "Latticini", new String[]{"latte", "formaggio", "yogurt", "burro"},
+            "Frutta", new String[]{"mela", "banana", "arancia", "pera"},
+            "Condimenti", new String[]{"olio", "sale", "pepe", "zucchero"}
         );
         
         // Popola la mappa delle categorie
@@ -475,9 +476,6 @@ class DiarioGUI extends JFrame {
         JPanel mainGrid = new JPanel(new GridLayout(1, 7, 15, 0));
         mainGrid.setOpaque(false);
         
-        // Crea ComboBox con tutte le ricette
-        Vector<Ricetta> ricetteVector = new Vector<>(gestore.getRicettario());
-        
         // Per ogni giorno della settimana
         for (int i = 0; i < GIORNI.length; i++) {
             String giorno = GIORNI[i];
@@ -519,7 +517,7 @@ class DiarioGUI extends JFrame {
                 }
                 
                 Color colorePasto = UIUtils.adjustColorBrightness(coloreGiorno, fattoreLuminosita);
-                JPanel pastoPanel = createPastoPanel(giorno, tipoPasto, coloreGiorno, colorePasto, ricetteVector);
+                JPanel pastoPanel = createPastoPanel(giorno, tipoPasto, coloreGiorno, colorePasto);
                 pastiPanel.add(pastoPanel);
                 indicePasto++;
             }
@@ -534,7 +532,7 @@ class DiarioGUI extends JFrame {
         return panel;
     }
     
-    private JPanel createPastoPanel(String giorno, TipoPasto tipoPasto, Color bordoColore, Color sfondoColore, Vector<Ricetta> ricette) {
+    private JPanel createPastoPanel(String giorno, TipoPasto tipoPasto, Color bordoColore, Color sfondoColore) {
         JPanel panel = new JPanel(new BorderLayout(5, 5));
         panel.setBackground(sfondoColore);
         // Shadow effect con bordo sottile e arrotondato
@@ -613,8 +611,10 @@ class DiarioGUI extends JFrame {
         controlPanel.setBackground(sfondoColore);
         controlPanel.setBorder(BorderFactory.createEmptyBorder(4, 0, 0, 0));
         
-        // Usa direttamente la variabile ricette passata come parametro
-        JComboBox<Ricetta> comboRicette = new JComboBox<>(ricette);
+        // Ottiene le ricette specifiche per questo tipo di pasto
+        List<Ricetta> ricettePasto = gestore.getRicettario(tipoPasto);
+        Vector<Ricetta> ricetteVector = new Vector<>(ricettePasto);
+        JComboBox<Ricetta> comboRicette = new JComboBox<>(ricetteVector);
         
         // Configurazione ottimizzata del ComboBox
         comboRicette.setRenderer(new RicettaCellRenderer() {
@@ -819,7 +819,7 @@ class DiarioGUI extends JFrame {
         // Stampa gli ingredienti raggruppati per categoria con stile moderno
         for (Map.Entry<String, Map<String, List<Ingrediente>>> entryCategoria : ingredientiPerCategoria.entrySet()) {
             sb.append(entryCategoria.getKey()).append("\n");
-            sb.append("──────────────────────\n");
+            sb.append("--------------------------------------------\n");
             
             for (Map.Entry<String, List<Ingrediente>> entryIngrediente : entryCategoria.getValue().entrySet()) {
                 sb.append(entryIngrediente.getKey()).append(":\n");
@@ -854,7 +854,7 @@ class DiarioGUI extends JFrame {
         
         for (Ingrediente ingrediente : listaSpesa.values()) {
             String nomeIngrediente = ingrediente.getNome().toLowerCase();
-            String categoria = "🛒 Altri Prodotti";
+            String categoria = " Altri Prodotti";
             
             // Cerca la categoria appropriata - utilizza lazy loading
             for (Map.Entry<String, String> entry : getCategorieIngredienti().entrySet()) {
