@@ -1,6 +1,0 @@
-torta
-- farina, 500, g
-- zucchero, 3, g
-
-Nome Ricetta 2
-- burro, 30, g

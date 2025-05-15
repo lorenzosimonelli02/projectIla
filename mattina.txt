@@ -1,0 +1,20 @@
+Pancakes
+- farina, 150, g
+- uovo, 1, g
+- latte, 200, g
+- lievito, 1, g
+- burro, 50, g
+
+Toast 
+- pane, 2, g
+- avocado, 10, g
+- uova, 2, g
+- sale, 2, g
+- pepe, 4, g
+- limone, 3, g
+
+Yogurt
+- yogurt naturale, 200, g
+- frutta, 100, g
+- miele, 5, g
+- cereali, 30, g
