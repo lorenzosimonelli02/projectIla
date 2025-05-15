@@ -15,8 +15,16 @@ public class DiarioAlimentare {
             // Caricamento dati prima di creare la GUI
             GestoreRicette gestore = new GestoreRicette();
             try {
-                gestore.caricaRicette("ricettario.txt");
+                // Carica ricette da file separati per tipo di pasto
+                for (TipoPasto tipo : TipoPasto.values()) {
+                    String nomeFile = tipo.getNomeFile();
+                    gestore.caricaRicettePerTipo(tipo, nomeFile);
+                    System.out.println("Caricato ricettario per " + tipo.getNome() + " da " + nomeFile);
+                }
+                
+                // Carica prezzi ingredienti
                 gestore.caricaPrezzi("volantino.txt");
+                System.out.println("Caricati prezzi degli ingredienti da volantino.txt");
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, 
                     "Errore nel caricamento dei file: " + e.getMessage(), 
