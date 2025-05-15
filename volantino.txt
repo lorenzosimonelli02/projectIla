@@ -1,3 +1,51 @@
-farina, 5
-zucchero, 9
-burro, 10
+farina, 1
+zucchero,1
+burro, 2
+uovo, 1
+latte, 1
+lievito, 2
+pane, 2
+avocado, 3
+sale, 1
+pepe, 1
+limone, 1
+yogurt naturale, 3
+frutta, 5
+miele, 4
+cereali, 3
+pasta, 5
+pomodoro, 3
+aglio, 2
+basilico, 2
+olio, 5
+quinoa, 4
+cetriolo, 1
+peperone, 2
+carote, 2
+feta, 4
+pollo, 5
+zucchina, 1
+cipolla, 1
+cous cous, 5
+melanzana, 4
+riso basmati, 3
+piselli, 1
+curry, 2
+fesa di tacchino, 2
+lattuga, 1
+senape, 2
+filetti di salmone, 4
+erbe aromatiche,  
+rotolo di pasta sfoglia, 2
+spinaci, 3
+ricotta, 2
+parmigiano, 3
+lenticchie, 2
+sedano, 2
+brodo vegetale, 1
+funghi champignon, 5
+panna, 2
+aglio, 1
+carne macinata, 3
+pangrattato, 1
+passata di pomodoro, 3
